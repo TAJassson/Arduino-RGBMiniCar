@@ -23,7 +23,7 @@ byte brightness = 0;
 
 
 void setup() {
-  SerialBT.begin("Dammmmmmm");
+ // SerialBT.begin("Dammmmmmm"); //CreateBTConnecntion
   pinMode(25, OUTPUT);
   pinMode(26, OUTPUT);
   pinMode(27, OUTPUT);
