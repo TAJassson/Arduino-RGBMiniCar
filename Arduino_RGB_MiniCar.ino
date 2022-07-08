@@ -1,7 +1,7 @@
 
-//#include "BluetoothSerial.h"
+#include "BluetoothSerial.h"
 //BTcontrollersupport
-//BluetoothSerial SerialBT;
+BluetoothSerial SerialBT;
 
 #define resolution 8
 
@@ -23,7 +23,7 @@ byte brightness = 0;
 
 
 void setup() {
- // SerialBT.begin("Dammmmmmm"); //CreateBTConnecntion
+ SerialBT.begin("Dammmmmmm"); //CreateBTConnecntion
   pinMode(25, OUTPUT);
   pinMode(26, OUTPUT);
   pinMode(27, OUTPUT);
@@ -48,6 +48,7 @@ void setup() {
 }
 
 void loop() {
+//超聲波Sensor
   digitalWrite(TrigPin, LOW); //低高低電平發一個短時間脈衝去TrigPin 
   delayMicroseconds(2);
   digitalWrite(TrigPin, HIGH);
@@ -57,103 +58,17 @@ void loop() {
   cm = (int(cm * 100)) / 100; //保留兩位小數 
   Serial.print(cm);
   Serial.print("cm");//串口輸出 
+//超聲波Sensor
   Serial.println();
   delay(100); 
+//getCMtocontrolRGBLight
      if (cm < 3 ) //if 10cm = warning and route to right 
-      {
-        Serial.print("To low");
+     {
+     Serial.print("To low");
      digitalWrite(M1Pin1, LOW);
      digitalWrite(M1Pin2, LOW);
      digitalWrite(M2Pin1, LOW);
      digitalWrite(M2Pin2, LOW);
-        delay(100);
-       ledcWrite(Channel_4_LED, 255);
-       ledcWrite(Channel_5_LED, 0);
-       ledcWrite(Channel_6_LED, 0); 
-       delay(150);
-       ledcWrite(Channel_4_LED, 0); 
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, 150);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, 150); //R
-     ledcWrite(Channel_4_LED, 255);
-     delay(500);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW); //S
-      ledcWrite(Channel_4_LED, 0);
-     delay(500); 
-     digitalWrite(M1Pin1, 255);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, 255); //F
-                 ledcWrite(Channel_4_LED, 255);
-     delay(1000);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW);  //S
-     ledcWrite(Channel_4_LED, 0);
-     delay(500);
-     digitalWrite(M1Pin1, 150);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, 150);
-     digitalWrite(M2Pin2, LOW); //L
-      ledcWrite(Channel_4_LED, 255);
-     delay(500);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW); //S 
-     
-            ledcWrite(Channel_4_LED, 0);
-      delay(500); 
-     digitalWrite(M1Pin1, 255);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, 255); //F
-     ledcWrite(Channel_4_LED, 255);
-     delay(1000);
-          digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW); //S
-     ledcWrite(Channel_4_LED, 0);
-     delay(500);
-     digitalWrite(M1Pin1, 150);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, 105);
-     digitalWrite(M2Pin2, LOW); //L
-     ledcWrite(Channel_4_LED, 255);
-     delay(500);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW); //s
-     delay (500);
-     digitalWrite(M1Pin1, 255);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, 255); //F
-     ledcWrite(Channel_4_LED, 255);
-     delay(500);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW); //S
-     delay (300);
-     ledcWrite(Channel_4_LED, 0);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, 150);
-     digitalWrite(M2Pin1,LOW);
-     digitalWrite(M2Pin2, 150);
-     ledcWrite(Channel_4_LED, 255); 
-     delay(500);
-     digitalWrite(M1Pin1, LOW);
-     digitalWrite(M1Pin2, LOW);
-     digitalWrite(M2Pin1, LOW);
-     digitalWrite(M2Pin2, LOW);        
        }
      if(cm >= 10)
      {
@@ -167,10 +82,13 @@ void loop() {
      ledcWrite(Channel_5_LED, 0);
      ledcWrite(Channel_6_LED, 255); 
      }        
+//getCMtocontrolRGBLight
     if (SerialBT.available())
     {
     unsigned char rxdata = (unsigned char)SerialBT.read();
     Serial.write(rxdata);
+//BT send data
+//bind key 
     if (rxdata == '0') 
     {ledcWrite(Channel_4_LED, 0);
      ledcWrite(Channel_5_LED, 0);
@@ -273,4 +191,5 @@ void loop() {
      digitalWrite(M2Pin2, LOW);     
      }  
   }
+//bind key 
 }
