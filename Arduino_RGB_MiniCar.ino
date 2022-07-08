@@ -1,9 +1,7 @@
-//CodeByChengTszLok
-//AfterEditbyJasonTse
 
-#include "BluetoothSerial.h"
-
-BluetoothSerial SerialBT;
+//#include "BluetoothSerial.h"
+//BTcontrollersupport
+//BluetoothSerial SerialBT;
 
 #define resolution 8
 
